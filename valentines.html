@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+    (function(){
+        emailjs.init("NOb3tKUHjWFBfCYUn"); // твой Public Key
+    })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Святого Валентина! ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #156485;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 50vh;
+            background-image: url('clouds.jpg');
+            background-size: 100% auto;
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+
+        .hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 25px;
+            opacity: 0.5;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Конверт */
+        .envelope {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 1s ease;
+        }
+
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f5e6d3;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #e8d4b8;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+            clip-path: polygon(0 0, 50% 60%, 100% 0);
+            z-index: 2;
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope.closed .envelope-flap {
+            transform: rotateX(0deg);
+        }
+
+        .envelope-text {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #8b6f47;
+            font-size: 14px;
+            z-index: 12;
+        }
+
+        .envelope.fly-away {
+            animation: flyAway 1.5s ease forwards;
+        }
+
+        @keyframes flyAway {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(200%, -200%) rotate(30deg);
+                opacity: 0;
+            }
+        }
+
+        .card-wrapper {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            width: 300px;
+            z-index: 10;
+            position: relative;
+            overflow: visible;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            transition: all 0.8s ease;
+        }
+
+        .card.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .card.close-animation {
+            animation: closeIntoEnvelope 1s ease forwards;
+        }
+
+        @keyframes closeIntoEnvelope {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0) translate(0, 0);
+                opacity: 0;
+            }
+        }
+
+        .flower {
+            position: absolute;
+            width: 120px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .flower-left {
+            left: -60px;
+            bottom: 40px;
+            transform: rotate(-15deg);
+        }
+
+        .flower-right {
+            right: -60px;
+            top: 40px;
+            transform: rotate(15deg);
+        }
+
+        .big-heart {
+            width: 100px;
+            height: 100px;
+            background-image: url('monkeyyaya_2.webp');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #2d3436;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .button-line {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button-yes,
+        .button-no {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .love-message {
+            color: #ff4757;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .input {
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 12px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #questionForm {
+            margin: 15px;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .step {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input.fancy {
+            border: 2px solid rgba(255, 107, 107, 0.4);
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .input.fancy:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
+            background: #fff;
+        }
+
+        .form-buttons {
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .form-buttons button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .steps-indicator {
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #ddd;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 4px;
+        }
+
+        .dot.active {
+            background: #ff6b6b;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 100px;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.6);
+            z-index: 100;
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-message small {
+            display: block;
+            font-size: 16px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hearts-bg" id="hearts-container"></div>
+
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+        <div class="envelope-body"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-text">Нажми, чтобы открыть</div>
+    </div>
+
+    <div class="card-wrapper">
+        <div class="card" id="card">
+            <div class="big-heart"></div>
+            <h1 class="text">Will you be my Valentine?</h1>
+            <div class="button-line">
+                <button class="button-yes" onclick="showYes()">Yes👍</button>
+                <button class="button-no" onclick="showNo()">No👎</button>
+            </div>
+            <div id="loveMessage" class="love-message hidden"></div>
+            <div id="questionForm" class="hidden">
+                <div class="step active">
+                    <p class="message">🎨 Любимый цвет?</p>
+                    <input type="text" class="input fancy">
+                </div>
+                <div class="step">
+                    <p class="message">Что поднимает тебе настроение?</p>
+                    <input type="text" class="input fancy">
+                </div>
+                <div class="step">
+                    <p class="message">🍫 Любимое блюдо?</p>
+                    <input type="text" class="input fancy">
+                </div>
+                <div class="step">
+                    <p class="message">🌸 Твои любимые цветы?</p>
+                    <input type="text" class="input fancy">
+                </div>
+                <div class="form-buttons">
+                    <button onclick="prevStep()">Назад</button>
+                    <button onclick="nextStep()">Далее</button>
+                </div>
+                <div class="steps-indicator">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            <img src="flower1.png" class="flower flower-left">
+            <img src="flower2.png" class="flower flower-right">
+        </div>
+    </div>
+
+    <div id="successMessage" class="success-message">
+        Спасибо за ответы!
+        <small>С Днём Святого Валентина! ❤️</small>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        let currentStep = 0;
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const card = document.getElementById('card');
+
+            envelope.classList.add('opened');
+            envelope.classList.remove('closed');
+
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                card.classList.add('show');
+            }, 800);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+            document.getElementById('hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 15000);
+        }
+
+        setInterval(createHeart, 500);
+        for (let i = 0; i < 10; i++) createHeart();
+
+        function showYes() {
+            document.querySelector('.big-heart').style.backgroundImage = "url('monkeyyaya_2.webp')";
+            document.querySelector('.text').style.display = 'none';
+            document.getElementById('loveMessage').textContent = 'Узнаем тебя получше';
+            document.getElementById('loveMessage').classList.remove('hidden');
+            document.querySelector('.button-line').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('questionForm').classList.remove('hidden');
+            }, 800);
+        }
+
+        function showStep(index) {
+            const steps = document.querySelectorAll('.step');
+            const dots = document.querySelectorAll('.dot');
+            steps.forEach(step => step.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            steps[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        function nextStep() {
+            const steps = document.querySelectorAll('.step');
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            } else {
+                submitMultiForm();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function showNo() {
+            clickCount++;
+            if (clickCount == 1) {
+                document.querySelector('.big-heart').style.backgroundImage = "url('plsCat.png')";
+                document.querySelector('.button-no').style.fontSize = "8px";
+                document.querySelector('.button-no').style.padding = "6px 17px";
+            }
+            if (clickCount == 2) {
+                document.querySelector('.big-heart').style.backgroundImage = "url('hamster.png')";
+                document.querySelector('.button-no').style.fontSize = "4px";
+                document.querySelector('.button-no').style.padding = "3px 10px";
+            }
+            if (clickCount >= 3) {
+                document.querySelector('.big-heart').style.backgroundImage = "url('tylerKid.png')";
+                document.querySelector('.button-no').style.display = "none";
+            }
+        }
+
+        function submitMultiForm() {
+            const steps = document.querySelectorAll('.step');
+            const answers = [];
+
+            steps.forEach(step => {
+                const input = step.querySelector('input');
+                answers.push(input ? input.value : '');
+            });
+
+            // Формируем объект для EmailJS
+            const templateParams = {
+                favorite_color: answers[0] || '',
+                mood_booster: answers[1] || '',
+                favorite_food: answers[2] || '',
+                favorite_flowers: answers[3] || ''
+            };
+
+            // Отправка через EmailJS
+            emailjs.send('service_44rprm9', 'template_6uxd1zx', templateParams)
+                .then(response => {
+                    console.log('SUCCESS!', response.status, response.text);
+                }, error => {
+                    console.log('FAILED...', error);
+                });
+
+            // --- Существующая анимация ---
+            const card = document.getElementById('card');
+            const envelope = document.getElementById('envelope');
+
+            card.classList.add('close-animation');
+
+            setTimeout(() => {
+                card.classList.remove('show', 'close-animation');
+                card.style.display = 'none';
+
+                envelope.style.display = 'block';
+                envelope.classList.remove('opened');
+                envelope.classList.add('closed');
+
+                setTimeout(() => {
+                    envelope.classList.add('fly-away');
+
+                    setTimeout(() => {
+                        envelope.style.display = 'none';
+                        envelope.classList.remove('fly-away', 'closed');
+                        document.getElementById('successMessage').classList.add('show');
+                    }, 1500);
+
+                }, 800);
+
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
